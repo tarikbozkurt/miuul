@@ -1,0 +1,95 @@
+import seaborn as sns
+import numpy as np
+df = sns.load_dataset("titanic")
+
+df.head()
+df.info()
+#kadın erkek yolcu sayısı
+df["sex"].value_counts()
+
+#tüm sutunlardaki uniq değerler
+unique_values= df.nunique()
+
+#pclass da bulunan uniq değerler
+unique_values_of_pclass = df['pclass'].unique()
+
+
+# pclass ve parch sütunlarındaki uniq değerlerin toplamı
+both_pclass_and_parch_unique= df['pclass'].nunique()+df['parch'].nunique()
+both_pclass_and_parch_unique_2= df[ ['pclass','parch']].value_counts()
+
+#embark değişkeninin tipini bul ve category olarak değiştir.
+print(df['embarked'].dtype)
+
+df['embarked'] = df['embarked'].astype('category')
+
+print(df['embarked'].dtype)
+
+#embarked değeri ' C ' olan verileri getirdik..
+print(df[ df['embarked'] == 'C'])
+
+#embarked değeri ' S ' olmayan verileri getirdik..
+print(df[ df['embarked'] != 'S'])
+
+#yaşı 30 dan az, cinsiyeti kadın olanları getir.
+#query 2 parametre alıyor, koşul olarak bu parametreleri girdik..
+print(df.query('(age < 30) & (sex =="female")'))
+
+#fare 500 den büyük ve ya yaş 70 den büyük
+print(df.query('(fare > 500) | (age > 70)'))
+
+#tüm isnull ları topla
+print(df.isnull().sum())
+
+#dataframe den değer çıkartma işlemi.. sütun
+print(df.drop('who',axis=1))
+
+#deck değikenindeki boş değerleri deck değişkenin en çok tekrar eden değeri (mode) ile doldurunuz
+#değişken dec i df['deck'] erişimini yapıyoruz.
+# .fillna ifadesi ile doldurulacak değerleri .fillna( .. ) içerisine giriyoruz.
+#.fillna(df['deck'].mode()) burada modunu alıyoruz
+#inplace kalıcı olarak değiştiriyor.
+#iloc[0] ilk satırdaki tüm elemanları sırayla alıp işleme koyar..
+df["deck"].fillna(df["deck"].mode().iloc[0], inplace=True)
+
+#age değikenindeki boş değerleri age değişkeninin medyanı ile doldurunuz
+#değişken dec i df['age'] erişimini yapıyoruz.
+# .fillna ifadesi ile doldurulacak değerleri .fillna( .. ) içerisine giriyoruz.
+#.fillna(df['age'].mode()) burada modunu alıyoruz
+#inplace kalıcı olarak değiştiriyor.
+#iloc[0] ilk satırdaki tüm elemanları sırayla alıp işleme koyar..
+df['age'].fillna(df['age'].median(),inplace = True)
+
+
+#survived kırılımından; sex ve pclass değişkenlerinin "sum" "mean" ve "count" değerlerini bulunuz..
+print(df.groupby(['sex','pclass']).agg({'survived':['sum','mean','count']}))
+
+
+
+#titanic veri tabannında bulunan yaş sütununa göre yaşı 30 dan küçük olanlara 1, diğer durumlarda olanlara 0 yazacak
+#bir fonksiyon yazınız
+#apply fonksiyonun başlangıcı ;
+#lambda kullan at fonksiyonu ile  koşula göre 1 ve ya 0 yazdırıyoruz..
+#daha sonra bu yeni veriyi datasetimize ekliyoruz..
+age_flag = df["age"].apply(lambda x:1  if x<30 else 0)
+df["age_flag"] = age_flag
+
+
+#Tips veri tabannını seaborn üzerinden çektik
+import seaborn as sns
+
+df = sns.load_dataset("Tips")
+
+df.head()
+df.info()
+df.nunique()
+
+#time değişkeninin diner velunch a göre total_bill in max,min,mean ve sum değerlerini bul.
+df.groupby(['time']).agg({'total_bill':['mean','sum','min','max']})
+
+#Day ve time’a göre total_bill değerlerinin sum, min, max ve mean değerlerini bulunuz
+df.groupby(['day','time']).agg({'total_bill':['sum','min','max','mean']})
+
+#Lunch zamanına ve kadın müşterilere ait total_bill ve tip değerlerinin day'e göre sum, min, max ve mean değerlerini bulunuz.
+print(df[['total_bill','tip','day']].loc[(df['time'] =='Lunch') & (df['sex'] == 'female')].groupby("day").agg({'total_bill' : ["sum", "min", "max", "mean"],'tip':["sum", "min", "max", "mean"]}))
+
