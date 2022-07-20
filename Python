@@ -1,0 +1,945 @@
+print("Hello World")
+
+a=5
+
+b=11
+x=['t']
+print(x)
+type(x )
+int(a*b/10)
+
+def summer(arg1,arg2):
+  """
+
+  Args:
+      arg1: int, float
+      arg2: int, float
+
+  Returns:
+      int,float
+  Notes: Deneme Note
+  """
+  print(arg1+arg2)
+
+summer(10,5)
+
+
+def say_hi(string):
+  print(string)
+  print("hello")
+say_hi("TARİK")
+
+def multiplication(a,b):
+  c = a * b
+  return c
+
+tut= multiplication(5,4)
+
+yeni_tut = tut-tut
+
+print(yeni_tut)
+
+list_store=[]
+
+def add_list(x,y):
+  c = x*y
+  list_store.append(c)
+
+add_list(10,4)
+
+print(list_store)
+
+
+def divide(a,b=1):
+  return a/b
+
+divide(50)
+
+
+def calculate(varm,moisture,charge):
+
+  return int((varm+moisture)/charge)
+
+calculate(98,12,78)*10
+
+def standardization (a,p):
+  return a * 10 / 100 * p * p
+
+standardization(45, 1)
+
+def all_calculation(varm, moisture, charge, p):
+  a=calculate(varm, moisture, charge)
+  b = standardization(a, p)
+  print(b*10)
+
+all_calculation(1, 3, 5, 12)
+
+
+def all_calculation(varm, moisture, charge,a, p):
+  print(calculate(varm, moisture, charge))
+  b = standardization(a, p)
+  print(b*10)
+
+all_calculation(1, 3, 5,19 ,12)
+
+#------------------------------
+
+#global değişken
+list_store = [1,2]
+
+def add_element(a,b):
+  c = a*b
+  # c = local değişken
+  list_store.append(c)
+
+  print(list_store)
+
+
+add_element(1,9)
+
+#-----------------------
+
+students = ['tarik','doruk','demircan','tokdemir']
+
+for student in students:
+
+  print(student.upper())
+
+salaries = [1000,2000,3000,4000,5000]
+
+for salary in salaries:
+  salary = salary+  (salary*20)/100
+  print(int(salary))
+
+
+
+employees_salaries=[1000,2000,3000,4000,5000]
+
+def make_a_raise(salary,raiseValue):
+  return int((salary+(salary*raiseValue)/100))
+
+for salary in employees_salaries:
+  print('Lütfen aşağıdan;\n\n  {} için zam tutarı giriniz\n'.format(salary))
+  rate = int(input('% kaç zam olacak'))
+  print("{} maaşının, {} zam ile yeni maaş değeri {}".format(salary,rate,make_a_raise(salary,rate)))
+
+
+
+
+
+
+def remake(remakeValue):
+  """
+
+  Args:
+    remakeValue: str
+
+  Returns: str
+
+  """
+  new_List = ""
+  for i in range(len(remakeValue)):
+    if i %2 == 0 :
+      new_List+=remakeValue[i].upper()
+
+    else:
+      new_List+=remakeValue[i].lower()
+  print(new_List)
+
+remake("hi my name is tarik and ı am learning ML with Miuul")
+
+
+def divide_students(string):
+  odd = []
+  even=[]
+  general_list=[]
+  for index,name in enumerate(string):
+    if index %2 == 0:
+      even.append(name)
+    else:
+      odd.append(name)
+  general_list.append(odd)
+  general_list.append(even)
+  return print('çift indexliler {}\n tek indexliler {}\n\n Mülakat sorusu cevabı {}'.format(even,odd,general_list))
+students = ["tarik","miuul","vahit","yusuf"]
+divide_students(students)
+
+
+
+
+
+def second_divide_students(students):
+  group_list=[[],[]]
+
+  for index, student in enumerate(students):
+    if index % 2 ==0 :
+      group_list[0].append(student.upper())
+    else:
+      group_list[1].append(student.lower())
+
+  print(group_list)
+  return group_list
+students = ["tarik","miuul","vahit","yusuf"]
+second_divide_students(students)
+
+
+def alternating_with_enumerate(string):
+  """
+
+  Args:
+    string: str
+
+  Returns: str
+
+  """
+  new_string=""
+  for i,letter in enumerate(string):
+    if i % 2 == 0:
+      new_string +=letter.upper()
+    else:
+      new_string+=letter.lower()
+  return new_string
+
+alternating_with_enumerate("hi my name is Tarık and ı am learning ML")
+
+
+def connectbtw(one,two,three):
+  """
+
+  Args:
+    one: list
+    two: list
+
+  Returns: list
+
+  """
+  get_my_tupple= list(zip(one,two,three))
+
+  return get_my_tupple
+
+students = ["tarik","miuul","vahit","yusuf"]
+ml_points = [90,100,100,10]
+which_course = ["miuul","miuul","VBO","coursera"]
+
+
+connectbtw(students,ml_points,which_course)
+
+
+
+result = lambda a,b : a+b
+
+result(4,5)
+
+#   map and lambda usage --------------------
+
+salaries = [100,453,654,786,956]
+money = int(input('maas artıs % sini giriniz\n:'))
+result = list(map(lambda x : x+(x*money)/100,salaries))
+print(result)
+
+
+# end  --------------------
+
+from functools import reduce
+
+result = reduce(lambda x,y : x+y,salaries)
+print(result)
+
+
+
+
+#list comprehension
+
+
+salaries = [1000,2000,3000,4000,5000]
+
+def new_salary(salary):
+  return salary*20/100+salary
+
+for salary in salaries:
+    print(new_salary(salary))
+
+null_list=[]
+
+for salary in salaries:
+    if salary >3000:
+        null_list.append(new_salary(salary))
+    else:
+        null_list.append(new_salary(salary*2))
+
+print(null_list)
+
+[new_salary(salary*2) if salary <3000 else new_salary(salary) for salary in salaries]
+
+[salary*2 for salary in salaries]
+
+[salary for salary in salaries if salary < 2000]
+
+[new_salary(salary*2) if salary < 3000 else new_salary(salary*0.2) for salary in salaries]
+
+students = ['tarik','yusuf','doruk','demircan','sahan']
+
+students_no = ['doruk','sahan']
+
+[std.lower() if std in students_no else std.upper() for std in students]
+
+
+
+dictionary = {'a':1,
+              'b':2,
+              'c':3,
+              'd':4
+              }
+
+{k:v**2 for k,v in dictionary.items()}
+{k.upper():v**3 for (k,v) in dictionary.items()}
+
+
+liste=[1,2,3,4,5,6,7,8,9,10]
+
+my_dict={}
+
+
+numbers = range(10)
+new_dict={}
+
+for i in numbers:
+  if i % 2 == 0:
+    new_dict[i] = i**2
+  else:
+    new_dict[i] = i
+print(new_dict)
+
+
+
+
+{n:n **2 if n%2 == 0 else n for n in numbers}
+
+
+import seaborn as sns
+
+df  = sns.load_dataset("car_crashes")
+df.columns
+df.columns = [ col.upper() for col in df.columns]
+
+df.columns
+
+["FLAG_"+ col if "INS" in col else "NO_FLAG_"+col for col in df.columns ]
+
+
+
+import seaborn as sns
+
+df = sns.load_dataset("car_crashes")
+df.columns
+
+#burada dataframe içerisindeki columları gezdik burada bulunan data frame de ki column lar dan data tipi object ollmayanları dönderdik
+num_cols = [col for col in df.columns if df[col].dtype !="O"]
+
+num_cols
+soz={}
+agg_list = ["mean","min","max","sum"]
+
+#her bir key için bir ' agg_list ' ekledi,
+#key ekleme yapmak için soz[col] burada dict özelliği olduğu içm key olarak alıyor..
+for col in num_cols:
+  soz[col]  = agg_list
+soz
+
+
+
+agg_list = ["mean","min","max","sum"]
+
+
+new_dict={col:agg_list for col in num_cols}
+
+df[num_cols].agg(new_dict)
+
+df[num_cols].agg(new_dict)
+
+
+
+x = 8
+
+print(type(x))
+
+y = 3.2
+
+print(type(y))
+
+z = 8j +18
+
+print(type(z))
+
+a  = "hello world"
+
+print(type(a))
+
+b = True
+
+print(type(b))
+
+c = 23 < 22
+
+print(type(c))
+
+l = [1,2,3,4]
+
+print(type(l))
+
+d = {'Name':'Jake',
+     "Age":27,
+     "Adress":"Downtown"}
+print(type(d))
+t = ("Machine Learnnig","Data Science")
+
+print(type(t))
+s = {"Python","Machine Learning","Data Science"}
+print(type(s))
+
+
+text = "The goal is to turn data into information, and information into insight."
+new_str = ""
+
+for i in text:
+  if i == '.' or i == ',':
+    i.replace("."," ").replace(","," ")
+  else:
+    new_str = new_str + i.upper()
+
+
+
+
+print(new_str.split())
+
+
+
+lst = ["D","A","T","A","S","C","I","E","N","C","E"]
+
+for i in range(len(lst)):
+  i = i+1
+print(i)
+
+print(lst[0])
+print(lst[10])
+a=list(lst[:4])
+print(a)
+lst.pop(8)
+lst
+lst.insert(8,'N')
+lst
+
+
+dict = {'Christian':["America",18],
+        'Daisy':["England",12],
+        'Antonio':["Spain",22],
+        'Dante':["Italy",25]
+        }
+
+dict.keys()
+dict.values()
+dict['Daisy'][1] = 13
+dict['Ahmet'] = ['Turkey',24]
+del dict['Antonio']
+
+dict.pop('Daisy')
+dict.pop('Christian')
+
+l =[2,13,18,93,22]
+def settingsLists(list):
+  even_list = []
+  odd_list = []
+
+  for i in list:
+    if i %2 == 0:
+      even_list.append(i)
+    else:
+      odd_list.append(i)
+
+
+  return even_list, odd_list
+
+settingsLists(l)
+
+
+import seaborn as sns
+
+df = sns.load_dataset('car_crashes')
+new=df.columns
+new
+
+["NUM_"+i.upper() if df[i].dtype!= 'O' else i.upper() for i in new ]
+
+import seaborn as sns
+
+df = sns.load_dataset('car_crashes')
+headers = df.columns
+headers
+#[i.upper() if 'no' in i else i.upper()+'_FLAG' for i in headers]
+
+new_cols=[]
+og_list=["abbrev","no_previous"]
+
+new_df=[col for col in headers if col not in og_list]
+new_df
+
+from functools import reduce
+def calculate(varm,moisture,charge):
+  varm_total=reduce(lambda x,y: x+y , k)
+  moisture_total = reduce(lambda x, y: x + y, l)
+  charge_total = reduce(lambda x, y: x + y, m)
+  return print((varm_total + moisture_total)/charge_total)
+
+
+
+
+k=[3,4,5,6,7,8]
+l = [4,5,6,7,8,9]
+m=[9,9,8,7,6,5]
+
+calculate(k,l,m)
+
+k=[3,4,5,6,7,8,10,20]
+l = [4,5,6,7,8,9]
+m=[9,9,8,7,6,5,10]
+
+
+
+def calculate(varm=1,moisture=1,charge=1):
+  result = list(map(lambda x,y,z : (x+y)/z ,varm,moisture,charge))
+  return result
+calculate(k,l,m)
+
+varm =[3,4,5,6,7,8,10,20]
+moisture = [4,5,6,7,8,9]
+charge = [9,9,8,7,6,5,10]
+
+sayilar = []
+
+
+[sayilar.append(i) for i in range(1,100000) if i %2 == 0 and i%3 == 0]
+
+print(sayilar)
+
+kisiler = ['Tarik','Bozkurt','Yusuf','Demircan','Yusuf','Doruk']
+
+y_list=[]
+start_with_y = [y_list.append(i) for i in kisiler if 'Y' in i[0]]
+
+type(y_list)
+"""
+accum("abcd") -> "A-Bb-Ccc-Dddd"
+accum("RqaEzty") -> "R-Qq-Aaa-Eeee-Zzzzz-Tttttt-Yyyyyyy"
+accum("cwAt") -> "C-Ww-Aaa-Tttt"
+
+"""
+
+def accum(str):
+  return "".join([element.upper()+"_" if index == 0 else "_"+element.upper()+element.lower()*index for index,element in enumerate(str)])
+
+accum("abcd")
+
+"""
+accum("abcd") -> "A-Bb-Ccc-Dddd"
+accum("RqaEzty") -> "R-Qq-Aaa-Eeee-Zzzzz-Tttttt-Yyyyyyy"
+accum("cwAt") -> "C-Ww-Aaa-Tttt"
+
+"""
+accum_1="abcd"
+def accum(accum_1,accum_2,accum_3):
+  new_list=[]
+  new_list = list(accum_1).sort
+  a = " ".join(new_list)
+
+
+
+num_l=[2,13,18,93,22]
+
+def oddOrEven(num_lst):
+  even_list = []
+  odd_list=[]
+  for i in num_lst:
+    if i%2 == 0:
+      even_list.append(i)
+    else:
+      odd_list.append(i)
+  return even_list,odd_list
+
+even_List,odd_list = oddOrEven(num_l)
+
+even_List,odd_list
+
+
+import seaborn as sns
+
+df3 = sns.load_dataset("car_crashes")
+print(len(df3.columns))
+df3.columns = [i + "_FLAG" if 'no' not in i else i for i in df3.columns ]
+
+len(df3.columns)
+
+print(df3.columns)
+
+def new(salary,rate):
+ return int((salary*rate/100)+salary)
+
+salaries2 = [1000,2000,3000]
+for salary in salaries2:
+  print(new(salary,40))
+
+text="the goal ıs turn data "
+a = text.upper()
+a.split()
+
+numbers = range(10)
+new_dict={}
+
+for n in numbers:
+  if n %2 == 0:
+    new_dict[n] = n**2
+
+print(new_dict)
+
+
+ke = [2, 4, 6, 8, 10, 12]
+le = [1, 3, 5, 7, 9, 11]
+me = [3, 6, 2, 5, 1, 4]
+
+def calculate(varm,moisture,charge):
+
+ calculated= { {(k+1) : for k,v in enumerate([(varm[i]+moisture[i])/charge[i] for i in range(0,len(varm))])]
+ return calculated
+calculate(ke,le,me)
+
+ke = [2, 4, 6, 8, 10, 12]
+le = [1, 3, 5, 7, 9, 11]
+me = [3, 6, 2, 5, 1, 4]
+
+
+
+ke = [2, 4, 6, 8, 10, 12]
+le = [1, 3, 5, 7, 9, 11]
+me = [3, 6, 2, 5, 1, 4]
+
+def calculate(warm, moisture, charge):
+    dict = {(i+1) : ((warm[i] + moisture[i]) / charge[i]) for i in range(0, len(ke))}
+    return type(dict)
+
+deneme = calculate(ke, le, me)
+print(deneme)
+
+
+
+def sq(num):
+  res = [ int(x) for x in str(num)]
+  bos=[]
+
+  for d in res:
+    bos.append(d**2)
+  return bos
+
+
+sq(5234)
+
+import pandas as pd
+import numpy as np
+
+s = pd.Series([10,77,12,4,5])
+
+s.dtype
+
+t = np.array([10,77,12,4,5])
+
+t.dtype
+t.index
+
+a=64.6
+
+b = np.int32(a)
+
+
+b
+
+import pandas as pd
+
+s= pd.Series([[10,77,12,4,5],[12,3,4,5]])
+
+s.values
+s.dtype
+s.index
+s.size
+s.ndim
+s.head(3)
+s.tail(1)
+
+
+import pandas as pd
+
+df= pd.read_csv("Instagram.csv")
+df.head()
+df.describe().T
+df.isnull().sum()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import pandas as pd
+import seaborn as sns
+
+df = sns.load_dataset("titanic")
+df.head()
+
+
+
+
+df.index
+
+df[0:13]
+
+df.drop(0,axis=0).head()
+
+deleted_indexes = [1,3,5,7]
+
+df.drop(deleted_indexes,axis=0,inplace=True).head(10)
+
+
+
+df.alive.head()
+
+df.index = df["age"]
+df.drop("age",axis=1,inplace=True)
+df.head()
+
+df.drop("age",axis=1,inplace=True)
+df = df.reset_index()
+df.head()
+
+df.drop("trk",axis=1,inplace=True)
+
+import pandas as pd
+
+import seaborn as sns
+
+pd.set_option('display.max_columns',None)
+
+df = sns.load_dataset("titanic")
+df.head()
+
+
+df.age.head()
+
+col_names = ["age",'alive','adult_male']
+
+df[col_names]
+
+df["age2"] = df["age"]**2
+
+df.drop(col_names,axis=1).head()
+
+
+df["age2"] = df["age"]*2
+df["age3"] = df["age"]*3
+df.loc[:,df.columns.str.contains("age")].head()
+
+
+
+df.loc[ df["age"] > 50 , "class"].head()
+
+df.loc[(df["age"]> 50) & (df["sex"] == "male") , ["age","sex","class"]].head()
+
+
+df["embark_town"].value_counts()
+df_new = df.loc[(df["age"]> 50)
+       & (df["sex"] == "male")
+       & ((df["embark_town"] == "Cherbourg") | (df["embark_town"] == "Southampton") )  ,
+       ["age","sex","class"]]
+
+df_new["embark_town"].value_counts()
+
+df.groupby("sex")["age"].mean()
+
+
+agg_list=["mean",'sum','min','max']
+frequence = ['count']
+df.groupby("sex").agg({"age":agg_list,"embark_town":frequence})
+
+df.info()
+
+
+df.groupby(["sex","alone"]).agg({"age":"min","survived":"mean"})
+
+df.groupby(["sex","embark_town","class"]).agg({
+  "age":"mean",
+  "survived":"mean",
+  "sex":"count"})
+
+
+
+import pandas as pd
+import seaborn as sns
+
+pd.set_option("display.max_columns",None)
+df = sns.load_dataset("titanic")
+df.head()
+
+df.pivot_table("survived","sex","embarked")
+            # kesişimlerin satırlar sütunlar
+            #ortalaması
+
+df.pivot_table("survived","sex",["embarked","class"])
+
+df["new_age"] = pd.cut(df["age"], [0,10,18,25,40,90])
+
+df.pivot_table("survived","sex",["new_age","class"])
+
+pd.set_option("display.width",500)
+
+
+import pandas as pd
+import seaborn as sns
+pd.set_option('display.width',500)
+pd.set_option('display.max_columns',None)
+
+df = sns.load_dataset('titanic')
+df.head()
+
+#apply satır ve ya sütünlarda otomatik olarak fonksiyon çalıştırmaya yara
+#lambda kullan at fonksiyondur.
+df["age2"] = df["age"]*2
+df["age3"] = df["age"]*3
+
+(df["age"]/10).head()
+
+for col in df.columns:
+  if "age" in col:
+    df[col] = (df[col]/10)
+
+
+df[["age","age2","age3"]].apply(lambda x : x/10).head()
+df.loc[:,df.columns.str.contains("age")].apply(lambda x : x/10).head()
+
+df.loc[:,df.columns.str.contains("alive")].apply(lambda x: x==True).head()
+
+#normalleştirme - normalization - standartlaştırma.
+df.loc[:,df.columns.str.contains("age")].apply(lambda x : (x -x.mean())/x.std()).head()
+
+def standart_sclar(col_name):
+  return (col_name - col_name.mean())/col_name.std()
+
+df.loc[:,df.columns.str.contains("age")].apply(standart_sclar).head()
+
+#df.loc[:,["age","age2","age3"]] = df.loc[:,df.columns.str.contains("age")].apply(standart_sclar).head()
+
+df.loc[:,df.columns.str.contains("age")] = df.loc[:,df.columns.str.contains("age")].apply(standart_sclar).head()
+df.head()
+
+import pandas as pd
+import numpy as np
+
+m = np.random.randint(1,30,size=[5,3])
+
+df1 = pd.DataFrame(m,columns=["var1","var2","var3"])
+
+df2  =df1+99
+
+df2.head()
+
+pd.concat([df1,df2],ignore_index=True)
+
+
+df1  = pd.DataFrame( {'employees': ['john','dennis','mark','maria'],
+                      'group' : ['accounting','engineering','engineering','hr']})
+
+df2  =pd.DataFrame( {'employees': ['mark','john','dennis','maria'],
+                     'start_date':[2010,2009,2014,2019]})
+
+df3 = pd.DataFrame({'group':['accounting','engineering','hr'],
+                    'manager':['Tarik','doruk','demircan']})
+
+all_empyloyees_and_groups_and_start_date = pd.merge(df1,df2,on='employees')
+
+pd.merge(all_empyloyees_and_groups_and_start_date,df3,on='group')
+
+
+
+#kategorik değişkeler görselleştirme#
+
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+pd.set_option('display.max_columns',None)
+pd.set_option('display.width',500)
+
+df = sns.load_dataset("titanic")
+df.head()
+
+df["sex"].value_counts().plot(kind="bar")
+plt.show()
+
+plt.hist(df["age"])
+plt.show()
+
+plt.boxplot(df["fare"])
+plt.show()
+
+import numpy as np
+x = np.array([1,8])
+y = np.array([0,150])
+
+x=np.array([2,4,6,8,10])
+y = np.array([1,3,5,7,9])
+plt.plot(x,y,'o')
+plt.show()
+
+y = np.array([13,28,11,100])
+
+plt.plot(y,linestyle="dashdot",color="r")
+plt.show()
+
+#multiple lines
+
+x = np.array([23,18,31,10])
+y = np.array([13,28,11,100])
+plt.plot(x)
+plt.plot(y)
+
+plt.title("Bu ana başlık")
+
+plt.xlabel("X ekseni")
+plt.grid()
+plt.show()
+
+#subplots
+
+x = np.array(range(80,126,5))
+y = np.array(range(240,340,10))
+
+plt.subplot(1,2,1)
+plt.title("1")
+
+
+x = np.array(range(80,126,5))
+y = np.array(range(240,340,10))
+
+plt.subplot(1,2,2)
+plt.title("2")
+plt.plot(x,y)
+plt.show()
+
+
+df =sns.load_dataset("titanic")
+
+df['sex'].value_counts()
+
+sns.countplot(x = df["sex"], data = df)
+plt.show()
