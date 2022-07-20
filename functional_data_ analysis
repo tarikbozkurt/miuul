@@ -1,0 +1,454 @@
+
+#********************************************
+#gelişmiş fonksiypnel keşifçi veri analizi
+#********************************************
+
+# 1. genel resim
+# 2. kategorik değişken analizi (
+# 3. Sayısal Değişken analizi
+# 4. Hedef değişken analizi
+# 5. Korelasyon Analizi
+
+#---------------------------------------------
+
+
+
+
+# kategorik değişkenler, sayısal değişkenler, işlemler..
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+pd.set_option("display.width",500)
+pd.set_option("display.max_columns",None)
+
+df = sns.load_dataset("titanic")
+df.head()
+df.info()
+
+for col in df.columns :
+    if df[col].dtypes == "bool":
+        df[col] = df[col].astype(int)
+
+# docstring
+def cat_summary(dataframe,col_name,ratio_multiply_value):
+ """
+
+ Parameters
+ ----------
+ dataframe : df
+ col_name : str
+ ratio_multiply_value : int
+
+ Returns
+ -------
+ dataframe : df
+ """
+ print(pd.DataFrame({col_name:dataframe[col_name].value_counts(),
+                     "Ratio": ratio_multiply_value * dataframe[col_name].value_counts()/len(dataframe)}))
+
+ print("#################################")
+ 
+
+def num_summary(dataframe,numerical_col,plot=False):
+    quantiles = [0.05,0.10,0.20,0.30,0.40,0.50,0.60,0.70,0.80,0.90,0.95,0.99]
+
+    print(dataframe[numerical_col].describe(quantiles).T)
+    if plot:
+        dataframe[numerical_col].hist()
+        plt.xlabel(numerical_col)
+        plt.title(numerical_col)
+        plt.show(block=True)
+
+def grab_col_names(dataframe,cat_th=10,car_th=20):
+
+   """
+    bir değişken sayısal olsa dahi eşsiz sınıf sayısı 10 dan küçükse categorik değişken olarak ele alıcaz
+    20 den büyük ise karnel değişken giib davranıcaz
+    -Veri setindeki ketogorik, numerik ve kategorik fakat kordinal değişkenlerin isimleri
+    Parameters
+    ----------
+    dataframe : dataframe
+        değişken isimleri alınmak istenen dataframe'dir.
+
+    cat_th  :int,float
+        numerik fakat kategorik değişkenler için sınıf eşik değeri
+    car_th : int,flot
+        kategorik fakat kordinal değişkenler için sınıf eşik değeri
+    Returns
+    ----------
+        cat_cols : list
+            Kategorik değişken listesi
+        num_cols : list
+            Numerik değişken Listesi
+        cat_but_car: list
+            Kategorik görünümlü kordinal değişken Listesi
+    -------
+
+    Notes
+    -------
+    cat_cols + num_cols + cat_but_car = toplam değişken sayısı
+    num_but_cat cat_cols'un içerisinde.
+
+
+    """
+   cat_cols = [col for col in df.columns if str(df[col].dtype) in ["category", "object", "bool"]]
+
+   num_bat_cat = [col for col in df.columns if df[col].nunique() < 10 and df[col].dtypes in ["int64", "float"]]
+
+   cat_but_car = [col for col in df.columns if df[col].nunique() > 20 and str(df[col].dtypes) in ["category", "object"]]
+
+   cat_cols = cat_cols + num_bat_cat
+   cat_cols = [col for col in cat_cols if col not in cat_but_car]
+
+   num_cols = [col for col in df.columns if df[col].dtype in ["int64", "float"]]
+   num_cols = [col for col in df.columns if col not in cat_cols]
+
+   print(f"Observations:{dataframe.shape[0]}")
+   print(f"Veriable:{dataframe.shape[1]}")
+   print(f"cat_cols:{len(cat_cols)}")
+   print(f"num_cols:{len(num_cols)}")
+   print(f"cat_but_car:{len(cat_but_car)}")
+   print(f"num_but_cat:{len(num_bat_cat)}")
+
+   return cat_cols,num_cols,cat_but_car
+
+cat_cols,num_cols,cat_but_car = grab_col_names(df)
+
+#****************************************
+
+
+
+
+# hedef değişkenin kategorik değişkenler ile analizi
+#*************************************
+df.groupby("sex")["survived"].mean()
+
+
+def  target_summary_with_cat(dataframe, target, categorical_col):
+    print(pd.DataFrame({'target_mean':dataframe.groupby(categorical_col)[target].mean()}))
+
+target_summary_with_cat(df,"survived",["pclass","sex"])
+#*************************************
+#*************************************
+
+
+#hedef değişkenleri sayısal değişkenler ile analiz
+
+def target_summary_with_num(dataframe,target,numerical_col):
+    print(dataframe.groupby(target).agg({numerical_col: 'mean'}),end="\n\n\n")
+
+target_summary_with_num(df,"survived","age")
+#*************************************
+#*************************************
+
+
+
+
+
+
+#**************************************
+#Korelasyon Hesabı ile Datayı Düzenleme
+#************************************************************************
+
+#ihtiyaç halinde yüksek korelasyonlu değerleri bulma
+#her veri setinde yapılacak diye bir durum yok !
+
+
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+pd.set_option("display.width",500)
+pd.set_option("display.max_columns",None)
+
+df =pd.read_csv("breast-cancer.csv")
+df = df.iloc[:,1:-1]
+df.head()
+
+
+
+# datayı analiz etme
+#Miuul - görev
+def check_df(dataframe, head=5,tail=5,quan =False):
+    """
+
+    Parameters
+    ----------
+    dataframe : df
+    head : int
+    tail : int
+    quan : bool
+
+    Returns
+    -------
+    dataframe :<class 'pandas.core.frame.DataFrame'>
+    """
+
+
+    print("#*****************************************")
+    print("*SHAPE*")
+    print(dataframe.shape)
+
+    print("#*****************************************")
+    print("*Types*")
+    print(dataframe.dtypes)
+
+    print("#*****************************************")
+    print("*Head*")
+    print(dataframe.head(head))
+
+    print("#*****************************************")
+    print("*Tail*")
+    print(dataframe.tail(tail))
+
+    print("#*****************************************")
+    print("*NA*")
+    print(dataframe.isnull().sum())
+
+    if quan:
+        print("#*****************************************")
+        print("*Quantiles*")
+        print(dataframe.quantile([0,0.05,0.50,0.95,0.99,1]).T)
+        print(type(dataframe.quantile([0,0.05,0.50,0.95,0.99,1]).T))
+
+
+
+check_df(df,quan=True)
+
+
+def high_correlated_cols(dataframe, plot=False,corr_th=0.90):
+    """
+    korelasyon değişkenlerin birbiri ile ilişkisini ifade eden
+    istatistiksel ilişkidir.
+    -1 ile +1 arası değerler alır. -1 ve ya +1 e yakalaştıkça şiddeti artar.
+    +1 e yaklaştıkça pozitif yönlü ilişki artar.
+    -1 e yaklaştıkça negatif yönlü ilişki artar.
+
+    yüksek ilişki bağı olan veriler aynı değere sahip gibi olacağı için analiz dışı bırakılır.
+
+    """
+
+    #korelasyon oluşturduk. Gelen dataframe üzerinden
+    corr = dataframe.corr()
+
+    #korelasyonun mutlak değerini aldık.
+    cor_matrix = corr.abs()
+
+    #1. adım  | 0-1 matrisi oluşturduk- bu matrisin boyu bizim cor_matrix ile aynı
+    #2. adım |  bu oluşan 0-1 matrisinin tipini bool a çevirdik..
+    #3. adım | bu dönüşümler sonrası numpyın bir fonksiyonu olan " np.triu(..) ifadesi ile istenilen alt üçgenh kısımları ayıklandı..
+    #4. adım | cor_matrix.where(...) ifadesi ile genel parantezimizi sonlandırdık..
+
+    upper_triangle_matrix = cor_matrix.where(np.triu(np.ones(cor_matrix.shape),k=1).astype(bool))
+
+    #korelasyon da benzerlik seviyeleri 90% üstü olanları drop_list e atadık.. silmemiz gerek zaten aynı ifadeyi veriyorlar
+    drop_list = [ col for col in upper_triangle_matrix.columns if any(upper_triangle_matrix[col] > corr_th)]
+
+    #plot default olarak false biz True yollarsak içeriye gireceğiz..
+    if plot:
+        #gerekli küütphaneler eklendi
+        import seaborn as sns
+        import matplotlib.pyplot as plt
+
+        #oluşacak figürün boyutunu ayarladık.
+        sns.set(rc={'figure.figsize': (15, 15)})
+        # ısı haritası oluşturacağız.
+        sns.heatmap(corr, cmap="RdBu")
+        #figürü göstermek için..
+        plt.show()
+    return drop_list
+high_correlated_cols(df,True)
+
+#eğer kayıt etmek istersek...
+drop_list =high_correlated_cols(df,plot=True)
+
+#drop_listi datamıza uygularsak eğer, figürde gelen yoğunlukların ( mavi ve kırmızı ) kalkmış olmasını gözlemlememiz gerekir..
+#üstteki bulduğumuz drop_listin silinmiş halini bu sefer gönderiyoruz.
+
+high_correlated_cols(df.drop(drop_list,axis=1),plot=True)
+
+#sonuç olarak : yüksek kolerasyonlu değerler ( yoğunluklar ) tablodan kaldırılmıştır.
+
+#*******************************************************************************
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+a=int("5")
+type(a)
+print(a)
+
+a="12"*(12%11)
+type(a)
+
+
+
+a ="Hello"[0]
+
+a = "artificial general integrente"
+
+print(a.strip('e'))
+
+
+
+
+sozluk = {'py':1,'de':2}
+
+print(sozluk.keys())
+
+liste =range(101)
+
+liste2= [i**2 for i in liste if i%5 == 0 if i % 10 == 0 ]
+
+i = 8
+i**0.5
+x = True
+y=False
+z = False
+score =50
+if score <=50 :
+    print(1)
+elif score <=80 :
+    print(2)
+elif score <=100:
+    print(3)
+else:
+    print("ınvalid score")
+
+my_list = [1,5,5,5,5,1]
+
+my_list.index(5)
+
+num = 3.4
+
+if num > 0:
+    print("positive number")
+
+for i in "Istanbul":
+    if i =='n':
+        break
+    else:
+        x+=1
+print(x)
+
+
+
+
+
+
+
+while True:
+    try:
+        y = int(input('sayi gir'))
+        print(y)
+        break
+
+    except ValueError:
+        print("hata")
+
+
+txt = "Company12!"
+
+for i in txt:
+    if i.isalpha():
+        print(i)
+    else:
+        pass
+
+
+
+
+
+
+def LongestWord(sen):
+        nw=""
+
+        for letter in sen:
+            if letter.isalpha() or letter.isnumeric():
+                nw+=letter
+            else:
+                nw+=" "
+        return max(nw.split(),key=len)
+print(LongestWord(input()))
+
+
+def FindIntersection(strArr):
+    nw = str(strArr).split(", ")
+
+    list_1 = nw[0]
+    list_2 = nw[1]
+    print(list_1)
+    print(list_2)
+    nw_2 = []
+    for i in list_1:
+        for y in list_2:
+            if i == y:
+                nw_2.append(i)
+            else:
+                pass
+
+    return nw_2
+
+
+# keep this function call here
+print(FindIntersection(input()))
+
+
+
+
+
+
+
+
+
+def my_controller(str):
+    controller = 11
+    m_result = 'false'
+    question_mark_is = 0
+
+    for i in str:
+        if i.isdigit():
+            if int(i) + controller == 10:
+                if question_mark_is!=3:
+                    return m_result
+                m_result = 'true'
+            controller = int(i)
+            question_mark_is = 0
+
+
+
+        elif i == '?':
+            question_mark_is+=1
+
+        else:
+         pass
+    return m_result
+
+print(my_controller(input(":")))
+
+
+
+
+
+
+
+
+
+
